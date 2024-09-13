@@ -65,10 +65,9 @@ height_toque_continuar2, width_toque_continuar2 = template_toque_continuar2.shap
 template_fechar = cv2.imread('images/fechar.png', 0)
 height_fechar, width_fechar = template_fechar.shape[:2]
 
-template_proximo = cv2.imread('proximo.png')
+template_proximo = cv2.imread('images/proximo.png')
 height_proximo, width_proximo = template_proximo.shape[:2]
 
-# Novos templates
 template_cura_das_flores_curar = cv2.imread('images/habilidade-cura-das-flores-curar.png', 0)
 height_cura_das_flores_curar, width_cura_das_flores_curar = template_cura_das_flores_curar.shape[:2]
 
@@ -95,6 +94,9 @@ height_item, width_item = template_item.shape[:2]
 
 template_lobby = cv2.imread('images/lobby.png', 0)
 height_lobby, width_lobby = template_lobby.shape[:2]
+
+template_inicio = cv2.imread('images/inicio.png', 0)
+height_inicio, width_inicio = template_inicio.shape[:2]
 
 # Definir um limite de correspondência
 threshold = 0.8
@@ -149,7 +151,7 @@ def monitor_pause():
         if max_val >= threshold:
             print("Pause encontrado! Pausando...")
             is_paused = True
-            time.sleep(3)  # Pausa por 3 segundos
+            time.sleep(2)  # Pausa por 2 segundos
             is_paused = False
         time.sleep(0.1)  # Aguarda 1 segundo antes de verificar novamente
 
@@ -244,7 +246,6 @@ def start_folha_magica_plus_usar_thread():
         if not is_paused:
             find_and_click(template_folha_magica_plus_usar, height_folha_magica_plus_usar, width_folha_magica_plus_usar, "Habilidade Folha Mágica Plus utilizada a cada meio segundo!", click_forever=True)
 
-# Funções novas
 def start_cura_das_flores_curar_thread():
     while True:
         if not is_paused:
@@ -295,6 +296,11 @@ def start_proximo_thread():
         if not is_paused:
             find_and_click(template_proximo, height_proximo, width_proximo, "Próximo clicado!")            
 
+def start_inicio_thread():
+    while True:
+        if not is_paused:
+            find_and_click(template_inicio, height_inicio, width_inicio, "Início clicado!")            
+
 # Iniciar threads
 thread_comfey = threading.Thread(target=start_comfey_thread)
 thread_toque_continuar1 = threading.Thread(target=start_toque_continuar1_thread)
@@ -325,6 +331,7 @@ thread_pronto = threading.Thread(target=start_pronto_thread)
 thread_item = threading.Thread(target=start_item_thread)
 thread_lobby = threading.Thread(target=start_lobby_thread)
 thread_proximo = threading.Thread(target=start_proximo_thread)
+thread_inicio = threading.Thread(target=start_inicio_thread)
 
 thread_comfey.start()
 thread_toque_continuar1.start()
@@ -355,6 +362,7 @@ thread_pronto.start()
 thread_item.start()
 thread_lobby.start()
 thread_proximo.start()
+thread_inicio.start()
 
 
 # Iniciar o monitoramento de pause.png
