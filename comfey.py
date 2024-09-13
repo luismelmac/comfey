@@ -65,7 +65,7 @@ height_toque_continuar2, width_toque_continuar2 = template_toque_continuar2.shap
 template_fechar = cv2.imread('images/fechar.png', 0)
 height_fechar, width_fechar = template_fechar.shape[:2]
 
-template_proximo = cv2.imread('images/proximo.png')
+template_proximo = cv2.imread('images/proximo.png', 0)
 height_proximo, width_proximo = template_proximo.shape[:2]
 
 template_cura_das_flores_curar = cv2.imread('images/habilidade-cura-das-flores-curar.png', 0)
