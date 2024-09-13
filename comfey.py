@@ -65,6 +65,9 @@ height_toque_continuar2, width_toque_continuar2 = template_toque_continuar2.shap
 template_fechar = cv2.imread('images/fechar.png', 0)
 height_fechar, width_fechar = template_fechar.shape[:2]
 
+template_proximo = cv2.imread('proximo.png')
+height_proximo, width_proximo = template_proximo.shape[:2]
+
 # Novos templates
 template_cura_das_flores_curar = cv2.imread('images/habilidade-cura-das-flores-curar.png', 0)
 height_cura_das_flores_curar, width_cura_das_flores_curar = template_cura_das_flores_curar.shape[:2]
@@ -97,7 +100,7 @@ height_lobby, width_lobby = template_lobby.shape[:2]
 threshold = 0.8
 
 # Definir intervalo entre cliques (em segundos)
-click_interval = 0.5
+click_interval = 0.1
 
 # Flag para indicar se o script está em pausa
 is_paused = False
@@ -105,7 +108,7 @@ is_paused = False
 def find_and_click(template, height, width, message, click_forever=False, force_click=False):
     while True:
         if is_paused and not force_click:
-            time.sleep(1)  # Aguarda 1 segundo enquanto está pausado
+            time.sleep(0.1)  # Aguarda 1 segundo enquanto está pausado
             continue
 
         screen_width, screen_height = pyautogui.size()  # Obtém a resolução da tela
@@ -131,7 +134,7 @@ def find_and_click(template, height, width, message, click_forever=False, force_
                 return True  # Retorna verdadeiro quando encontra e clica
         else:
             print(f"Imagem não encontrada: {message}")
-        time.sleep(1)  # Aguarda 1 segundo antes de tentar novamente
+        time.sleep(0.1)  # Aguarda 1 segundo antes de tentar novamente
 
 def monitor_pause():
     global is_paused
@@ -146,9 +149,9 @@ def monitor_pause():
         if max_val >= threshold:
             print("Pause encontrado! Pausando...")
             is_paused = True
-            time.sleep(7)  # Pausa por 7 segundos
+            time.sleep(3)  # Pausa por 3 segundos
             is_paused = False
-        time.sleep(1)  # Aguarda 1 segundo antes de verificar novamente
+        time.sleep(0.1)  # Aguarda 1 segundo antes de verificar novamente
 
 def start_comfey_thread():
     while True:
@@ -287,6 +290,11 @@ def start_lobby_thread():
         if not is_paused:
             find_and_click(template_lobby, height_lobby, width_lobby, "Lobby clicado!")
 
+def start_proximo_thread():
+    while True:
+        if not is_paused:
+            find_and_click(template_proximo, height_proximo, width_proximo, "Próximo clicado!")            
+
 # Iniciar threads
 thread_comfey = threading.Thread(target=start_comfey_thread)
 thread_toque_continuar1 = threading.Thread(target=start_toque_continuar1_thread)
@@ -316,6 +324,7 @@ thread_comecar = threading.Thread(target=start_comecar_thread)
 thread_pronto = threading.Thread(target=start_pronto_thread)
 thread_item = threading.Thread(target=start_item_thread)
 thread_lobby = threading.Thread(target=start_lobby_thread)
+thread_proximo = threading.Thread(target=start_proximo_thread)
 
 thread_comfey.start()
 thread_toque_continuar1.start()
@@ -345,7 +354,7 @@ thread_comecar.start()
 thread_pronto.start()
 thread_item.start()
 thread_lobby.start()
-
+thread_proximo.start()
 
 
 # Iniciar o monitoramento de pause.png
