@@ -125,7 +125,7 @@ def monitor_pause():
             is_paused = True
             pause_mode_active = True
             pause_mode_start_time = time.time()
-            time.sleep(0.1)  # Pausa por 2 segundos
+            time.sleep(4)  # Pausa por 2 segundos
             is_paused = False
         time.sleep(0.1)  # Aguarda 0.1 segundos antes de verificar novamente
 
